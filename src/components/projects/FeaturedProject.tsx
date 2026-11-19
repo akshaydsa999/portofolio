@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { featured as p } from "../../data/projects";
 import { PlaceholderBadge, TagList } from "../ui/Tag";
 import { ProjectLinks } from "./ProjectLinks";
@@ -5,6 +6,10 @@ import { ProjectLinks } from "./ProjectLinks";
 const label = "font-mono text-xs uppercase tracking-widest text-accent";
 
 export function FeaturedProject() {
+  const images = p.images ?? [];
+  const [active, setActive] = useState(0);
+  const current = images[active];
+
   return (
     <article
       aria-labelledby="featured-name"
@@ -16,16 +21,38 @@ export function FeaturedProject() {
           <span className="size-2.5 rounded-full bg-line" />
           <span className="size-2.5 rounded-full bg-line" />
         </div>
-        {p.image ? (
+
+        {current ? (
           <img
-            src={p.image}
-            alt={p.imageAlt ?? `${p.name} screenshot`}
+            key={current.src}
+            src={current.src}
+            alt={current.alt}
             loading="lazy"
             className="aspect-video w-full object-cover object-top"
           />
         ) : (
           <div className="grid aspect-video place-items-center bg-ink/60 px-6 text-center font-mono text-xs text-muted">
-            // screenshot goes here — set `image` in src/data/projects.ts
+            // screenshot goes here — set `images` in src/data/projects.ts
+          </div>
+        )}
+
+        {images.length > 1 && (
+          <div className="flex flex-wrap gap-2 border-t border-line px-4 py-3">
+            {images.map((img, i) => (
+              <button
+                key={img.src}
+                type="button"
+                aria-pressed={i === active}
+                onClick={() => setActive(i)}
+                className={`rounded border px-3 py-1 font-mono text-xs transition-colors ${
+                  i === active
+                    ? "border-accent text-accent"
+                    : "border-line text-muted hover:border-accent/50 hover:text-text"
+                }`}
+              >
+                {img.label}
+              </button>
+            ))}
           </div>
         )}
       </div>

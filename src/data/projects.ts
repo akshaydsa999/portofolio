@@ -7,14 +7,15 @@ export type Project = {
   placeholder?: boolean;
 };
 
+export type Screenshot = { src: string; alt: string; label: string };
+
 export type FeaturedProjectData = Project & {
   problem: string;
   solution: string;
   built?: string;
   learned?: string[];
   next?: string[];
-  image?: string; // file goes in public/projects
-  imageAlt?: string;
+  images?: Screenshot[]; // files go in public/projects
 };
 
 export const featured: FeaturedProjectData = {
@@ -34,8 +35,18 @@ export const featured: FeaturedProjectData = {
   stack: ["HTML", "CSS", "JavaScript", "Local Storage"],
   github: "https://github.com/akshaydsa999/kyakhaoge",
   demo: "https://akshaydsa999.github.io/kyakhaoge/",
-  image: "/projects/kyakhaoge.png",
-  imageAlt: "Kyakhaoge's daily view showing today's breakfast and lunch with ingredients and cooking time",
+  images: [
+    {
+      src: "/projects/kyakhaoge.png",
+      label: "Daily menu",
+      alt: "Kyakhaoge's daily view showing today's breakfast and lunch with ingredients and cooking time",
+    },
+    {
+      src: "/projects/kyakhaoge-groceries.png",
+      label: "Grocery list",
+      alt: "Kyakhaoge's grocery checklist with quantities, plus a phone reminder card",
+    },
+  ],
 };
 
 export const projects: Project[] = [];
